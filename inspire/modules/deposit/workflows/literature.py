@@ -121,9 +121,9 @@ class literature(SimpleRecordDeposition):
         # ==============
         if metadata['type_of_doc'] == 'thesis':
             metadata['thesis'] = {}
-            metadata['thesis']['date'] = metadata['defense_date']
-            metadata['thesis']['university'] = metadata['university']
-            metadata['thesis']['type'] = metadata['degree_type']
+            metadata['thesis']['date'] = metadata.get('defense_date')
+            metadata['thesis']['university'] = metadata.get('university')
+            metadata['thesis']['type'] = metadata.get('degree_type')
 
         # ========
         # Category
@@ -152,16 +152,11 @@ class literature(SimpleRecordDeposition):
         if 'journal_title' in metadata:
             metadata['publication_info']['title'] = metadata['journal_title']
         # this should only allow the user to fill whether the page_range or the article_id
-        if 'page_range' in metadata:
-            metadata['publication_info']['page_artid'] = metadata['page_range']
-        elif 'article_id' in metadata:
-            metadata['publication_info']['page_artid'] = metadata['article_id']
-        if 'volume' in metadata:
-            metadata['publication_info']['journal_volume'] = metadata['volume']
-        if 'year' in metadata:
-            metadata['publication_info']['year'] = metadata['year']
-        if 'issue' in metadata:
-            metadata['publication_info']['journal_issue'] = metadata['issue']
+        metadata['publication_info']['page_artid'] = metadata.get('page_range')
+        metadata['publication_info']['page_artid'] = metadata.get('article_id')
+        metadata['publication_info']['journal_volume'] = metadata.get('volume')
+        metadata['publication_info']['year'] = metadata.get('year')
+        metadata['publication_info']['journal_issue'] = metadata.get('issue')
 
         # Delete useless data
         delete_keys = ['supervisors',
