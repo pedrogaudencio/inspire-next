@@ -78,57 +78,109 @@
                   }));
           }
       });
+
+      /**
+       * Set implementation based on a js object. 
+       * 
+       * Contains a set of unique values which are stored disregarding 
+       * the order.
+       */
+      var Set = (function() {
+
+        function Set() {
+          this.items = {};
+        }
+
+        Set.prototype = {
+
+          push: function(value) {
+            this.items[value] = undefined;
+          },
+
+          remove: function(value) {
+            delete this.items[value];
+          },
+
+          toArray: function() {
+            return Object.keys(this.items);
+          },
+
+          doesContain: function(value) {
+            return this.items.hasOwnProperty(value);
+          },
+
+          length: function() {
+            return Object.keys(this.items).length;
+          },
+
+          isEmpty: function() {
+            return !this.length();
+          },
+        }
+        
+        return Set;
+      })();
+
       
       /**
        * Allows to trigger actions when all the fields from
        * $fields list are empty, and when at least one is filled
        *
        * @param $fields {list of jQuery selectors} field list
-       * @param onEmpty
+       * @param onEmpty {function} triggered when all fields are empty
+       * @param onNotEmpty {function} triggered when the first field gets filled
        */
       function FieldsGroup($fields, onEmpty, onNotEmpty) {
 
-          this.$filledFields = [];
-          this.$fields = $fields;
-          this.onEmpty = onEmpty;
-          this.onNotEmpty = onNotEmpty;
+        this.filledFields = new Set();
+        this.$fields = $fields;
+        this.onEmpty = onEmpty;
+        this.onNotEmpty = onNotEmpty;
 
-          var that = this;
+        var that = this;
 
-          function getValue($field) {
-            return $.trim($field.val());
+        function isFieldFilled($field) {
+          return !!$.trim($field.val()).length;
+        }
+
+        $.each(this.$fields, function() {
+          var $field = this;
+          var field = $field[0];
+          if (isFieldFilled($field)) {
+            that.filledFields.push(field);
           }
+        });
 
-          $.each(this.$fields, function() {
-              if (getValue(this) {
-                  that.$filledFields.push(this);
-                  console.log(this);
-                  console.log(that.$filledFields.length);
-              }
-              if (!that.$filledFields.length)
-                  that.onEmpty();
-              else
-                  that.onNotEmpty();
-          });
+        if (that.filledFields.isEmpty())
+          that.onEmpty();
+        else
+          that.onNotEmpty();
 
-          $.each(this.$fields, function() {
-              this.on('keyup', function(event) {
-                  var $this = $(this);
-                  var idx = that.$filledFields.indexOf($this);
-                  if (getValue($this).length == 0 && idx > -1) {
-                      that.$filledFields.splice(idx, 1);
-                      console.log('deleted ' + idx + ' len: ' + that.$filledFields.length);
-                      if (!that.$filledFields.length);
-                          that.onEmpty();
-                  }
-                  else if (idx == -1) {
-                      that.$filledFields.push($this);
-                      console.log($this);
-                      console.log(that.$filledFields.length);
-                      that.onNotEmpty();
-                  }
-              });
+        $.each(this.$fields, function() {
+          this.on('keyup', function(event) {
+
+            var field = this;
+            var wasFilled = that.filledFields.doesContain(field);
+            var isFilled = isFieldFilled($(field));
+
+            if (isFilled == wasFilled)
+              return;
+
+            var fieldsWereEmpty = that.filledFields.isEmpty();
+
+            if (!isFilled && wasFilled)
+              that.filledFields.remove(field);
+            else if (isFilled && !wasFilled)
+              that.filledFields.push(field);
+
+            var fieldsAreEmpty = that.filledFields.isEmpty();
+
+            if (fieldsWereEmpty && !fieldsAreEmpty)
+              that.onNotEmpty();
+            if (!fieldsWereEmpty && fieldsAreEmpty)
+              that.onEmpty();
           });
+        });
       }
 
     var fieldsGroup = new FieldsGroup(
