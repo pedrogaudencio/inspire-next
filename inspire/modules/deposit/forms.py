@@ -284,14 +284,9 @@ class LiteratureForm(WebDepositForm):
         widget_classes="form-control"
     )
 
-    page_range = fields.TextField(
-        label=_('Page range'),
-        placeholder=_('1-100'),
-        widget_classes="form-control"
-    )
-
-    article_id = fields.TextField(
-        label=_('Article ID'),
+    page_range_article_id = fields.TextField(
+        label=_('Page range or Article ID'),
+        placeholder=_('e.g. 1-100 or A12345'),
         widget_classes="form-control"
     )
 
@@ -376,7 +371,7 @@ class LiteratureForm(WebDepositForm):
         ('Conference Information',
             ['conf_name']),
         ('Journal Information',
-            ['journal_title', 'volume', 'issue', 'page_range', 'article_id',
+            ['journal_title', 'volume', 'issue', 'page_range_article_id',
              'year']),
         ('Proceedings information (not published in journal)',
             ['nonpublic_note']),

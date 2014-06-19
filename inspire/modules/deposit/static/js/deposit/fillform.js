@@ -133,7 +133,7 @@ $(document).ready( function() {
       return {
         journal_title: data.journal_title,
         isbn: data.isbn,
-        page_range: page_range,
+        page_range_article_id: page_range,
         volume: data.volume,
         year: data.year,
         issue: data.issuess,
@@ -180,7 +180,7 @@ $(document).ready( function() {
           title: data.title,
           year: data.published,
           abstract: data.summary,
-          article_id: data.id,
+          page_range_article_id: data.id,
           contributors: data.author
         }
       }

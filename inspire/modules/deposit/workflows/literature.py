@@ -154,11 +154,8 @@ class literature(SimpleRecordDeposition):
         metadata['publication_info'] = {}
         if 'journal_title' in metadata:
             metadata['publication_info']['title'] = metadata['journal_title']
-        # this should only allow the user to fill whether the page_range or the article_id
-        if 'page_range' in metadata:
-            metadata['publication_info']['page_artid'] = metadata['page_range']
-        elif 'article_id' in metadata:
-            metadata['publication_info']['page_artid'] = metadata['article_id']
+        if 'page_range_article_id' in metadata:
+            metadata['publication_info']['page_artid'] = metadata['page_range_article_id']
         if 'volume' in metadata:
             metadata['publication_info']['journal_volume'] = metadata['volume']
         if 'year' in metadata:
@@ -172,7 +169,7 @@ class literature(SimpleRecordDeposition):
                        'degree_type',
                        'university',
                        'journal_title',
-                       'page_range',
+                       'page_range_article_id',
                        'article_id',
                        'volume',
                        'year',
