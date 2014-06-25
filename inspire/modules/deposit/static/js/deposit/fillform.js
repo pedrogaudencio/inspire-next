@@ -90,6 +90,7 @@ $(document).ready( function() {
   $('#subject').attr('multiple', 'multiple').multiselect({
     maxHeight: 400,
     enableCaseInsensitiveFiltering: true
+  });
 
   var $language = $("#language");
   var $translated_title = $("#state-group-title_translation");
@@ -215,20 +216,32 @@ $(document).ready( function() {
     special_mapping: {
       article: function(data) {
         return {
+          doi: data.doi,
           title: data.title,
           title_arXiv: data.title,
-          year: data.published,
-          abstract: data.summary,
+          journal_title: data["journal-ref"],
+          year: data.created,
+          abstract: data.abstract,
           article_id: 'arxiv:' + data.id,
-          contributors: data.author
+          license: data.license,
+          contributors: data.authors
         };
       }
     },
 
-    extract_contributor: function(contributor) {
+    extract_contributor: function(authors) {
+      var name, surname;
+
+      if (authors.author[0]) {
+        name = authors.author[0].keyname;
+      }
+
+      if (authors.author[1]) {
+        surname = authors.author[1].forenames;
+      }
 
       return {
-        name: contributor.name,
+        name: name + ', ' + surname,
         affiliation: ''
       };
     }
