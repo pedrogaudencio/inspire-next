@@ -189,6 +189,7 @@ $(document).ready(function() {
       var $field = $('#' + field_id);
       if ($field) {
         $field.val(value);
+        DEPOSIT_FORM.save_field(SAVE_URL, field_id, value);
       }
     });
 
