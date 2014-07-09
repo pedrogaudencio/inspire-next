@@ -41,7 +41,6 @@ var literatureFormPriorityMapper = new DataMapper({
       issue: ['arxiv', 'doi'],
       contributors: ['arxiv', 'doi'],
       abstract: ['arxiv', 'doi'],
-      article_id: ['arxiv', 'doi'],
       license_url: ['arxiv'],
       note: ['arxiv'],
     };
