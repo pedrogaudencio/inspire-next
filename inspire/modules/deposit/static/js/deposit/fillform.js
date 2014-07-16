@@ -267,6 +267,16 @@ LiteratureSubmissionForm.prototype = {
     }
 
     var authorsWidget = DEPOSIT_FORM.field_lists.authors;
+    var authors_count = dataMapping.contributors.length-1;
+    var authors_last_index = authorsWidget.get_next_index();
+    var authors_class = "#" + authorsWidget.options.prefix + authorsWidget.options.sep;
+
+    if(authors_last_index >= authors_count){
+      for(var i = authors_count; i < authors_last_index; i++){
+        $(authors_class + i).parents('.field-list-element').remove();
+      }
+      authorsWidget.append_element();
+    }
 
     $.map(dataMapping, function(value, field_id) {
       var $field = $('#' + field_id);
