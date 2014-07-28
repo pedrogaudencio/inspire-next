@@ -18,24 +18,17 @@
 #}
 {% extends "deposit/run_base.html" %}
 
-{% block file_container_colsize %}col-md-12{% endblock %}
-
-{% block form_header scoped %}
-{% endblock %}
-
-{% block form_title scoped %}
-	{{ super() }}
-    <p class="text-muted">
-        <small>Instructions: (i) If you have an <strong>arXiv ID</strong>, a <strong>DOI</strong> or a <strong>ISBN</strong>,
-        fill in the Identifier field and the data will be imported. (ii) Upload or remove extra files in the bottom of the form.
-        (iii) When ready, press "Submit" to finalize your upload.</small>
-    </p>
-    <div id="import-message"></div>
-    <div id="flash-import"></div>
-{% endblock form_title %}
-
-{% block sidebar %}
-{% endblock %}
+{% block deposit_page %}
+<div class="row">
+    {% block file_container %}
+        <div id="file_container" class="col-md-12 form-feedback-warning">
+            <div id="flash-message"></div>
+            {% include "deposit/form.html" %}
+        </div>
+    {% endblock %}
+    </div>
+</div>
+{% endblock deposit_page %}
 
 {% block javascript %}
 {%- block form_script_options %}
