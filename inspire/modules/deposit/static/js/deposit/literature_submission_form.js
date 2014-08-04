@@ -137,7 +137,7 @@ LiteratureSubmissionForm.prototype = {
     this.hideHiddenFields();
     this.handleTranslatedTitle();
     this.taskmanager = new TaskManager(this.$deposition_type);
-    this.messageBox = $('#flash-import').messageBox({
+    this.messageBox = $('#flash-message').messageBox({
       hoganTemplate: tpl_flash_message,
     })[0];
     this.$conference.conferencesTypeahead({
