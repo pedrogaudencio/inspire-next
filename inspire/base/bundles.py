@@ -48,6 +48,8 @@ _base_styles.contents += (
     'less/inspire.less',
 )
 
+_base_styles.contents.remove("less/base.less")
+
 from invenio.modules.search.bundles import js as _search_js
 
 _search_js.contents += (
